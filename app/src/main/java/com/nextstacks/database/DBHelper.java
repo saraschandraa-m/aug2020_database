@@ -82,4 +82,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return studentDetails;
     }
+
+    public void updateDataToDatabase(SQLiteDatabase database, StudentDetail studentDetail) {
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NAME, studentDetail.getStudentName());
+        cv.put(COL_EMAIL, studentDetail.getStudentEmail());
+        cv.put(COL_CONTACT, studentDetail.getStudentContact());
+        cv.put(COL_COURSE, studentDetail.getStudentCourse());
+        cv.put(COL_YEAR, studentDetail.getStudentYear());
+
+        database.update(TABLE_NAME, cv, COL_ID + " = "+ studentDetail.getStudentID(), null);
+    }
+
+    public void deleteDataFromDatabase(SQLiteDatabase database, StudentDetail studentDetail){
+        database.delete(TABLE_NAME, COL_ID+ " = "+ studentDetail.getStudentID(), null);
+    }
 }
