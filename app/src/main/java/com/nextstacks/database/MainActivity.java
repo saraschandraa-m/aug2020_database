@@ -2,9 +2,11 @@ package com.nextstacks.database;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
 
+    private boolean isUpdate;
+    private int studentID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,27 @@ public class MainActivity extends AppCompatActivity {
         mEtStudentEmail = findViewById(R.id.et_student_email);
         mEtStudentYear = findViewById(R.id.et_student_year);
         mEtStudentCourse = findViewById(R.id.et_student_course);
+
+        Button mBtnEnterData = findViewById(R.id.btn_enter_student);
+
+        Bundle data = getIntent().getExtras();
+
+        if (data != null) {
+            isUpdate = data.getBoolean("is_update");
+
+            StudentDetail studentDetail = (StudentDetail) data.getSerializable("Student");
+
+            mEtStudentName.setText(studentDetail.getStudentName());
+            mEtStudentCourse.setText(studentDetail.getStudentCourse());
+            mEtStudentYear.setText(studentDetail.getStudentYear());
+            mEtStudentEmail.setText(studentDetail.getStudentEmail());
+            mEtStudentContact.setText(studentDetail.getStudentContact());
+
+            studentID = studentDetail.getStudentID();
+
+            mBtnEnterData.setText("Update Student");
+
+        }
 
 
         dbHelper = new DBHelper(MainActivity.this);
@@ -57,7 +83,15 @@ public class MainActivity extends AppCompatActivity {
         mEtStudentYear.setText("");
         mEtStudentContact.setText("");
 
-        dbHelper.insertDataToDatabase(dbHelper.getWritableDatabase(), newStudent);
+        if (isUpdate) {
+            newStudent.setStudentID(studentID);
+            dbHelper.updateDataToDatabase(dbHelper.getWritableDatabase(), newStudent);
+
+            setResult(Activity.RESULT_OK);
+            finish();
+        } else {
+            dbHelper.insertDataToDatabase(dbHelper.getWritableDatabase(), newStudent);
+        }
 
 
     }

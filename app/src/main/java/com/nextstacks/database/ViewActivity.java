@@ -1,9 +1,12 @@
 package com.nextstacks.database;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -46,6 +49,10 @@ public class ViewActivity extends AppCompatActivity implements StudentDetailAdap
 
     @Override
     public void onUpdateClicked(StudentDetail studentDetail) {
+        Intent updateIntent = new Intent(ViewActivity.this, MainActivity.class);
+        updateIntent.putExtra("Student", studentDetail);
+        updateIntent.putExtra("is_update", true);
+        startActivityForResult(updateIntent, 1000);
 
     }
 
@@ -53,5 +60,13 @@ public class ViewActivity extends AppCompatActivity implements StudentDetailAdap
     public void onDeleteClicked(StudentDetail studentDetail) {
         dbHelper.deleteDataFromDatabase(dbHelper.getWritableDatabase(), studentDetail);
         loadDataToDatabase();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+            loadDataToDatabase();
+        }
     }
 }

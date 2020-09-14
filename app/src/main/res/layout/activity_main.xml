@@ -47,6 +47,7 @@
 
 
     <Button
+        android:id="@+id/btn_enter_student"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onEnterClicked"
@@ -57,6 +58,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onViewStudentClicked"
-        android:text="View List"/>
+        android:text="View List" />
 
 </LinearLayout>

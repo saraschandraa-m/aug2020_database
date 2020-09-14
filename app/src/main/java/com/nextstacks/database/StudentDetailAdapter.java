@@ -55,6 +55,15 @@ public class StudentDetailAdapter extends RecyclerView.Adapter<StudentDetailAdap
                 }
             }
         });
+
+        holder.mIvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onUpdateClicked(currentStudentDetail);
+                }
+            }
+        });
     }
 
     @Override

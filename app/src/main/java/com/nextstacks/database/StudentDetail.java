@@ -1,6 +1,8 @@
 package com.nextstacks.database;
 
-public class StudentDetail {
+import java.io.Serializable;
+
+public class StudentDetail implements Serializable {
 
     private int studentID;
     private String studentName;
